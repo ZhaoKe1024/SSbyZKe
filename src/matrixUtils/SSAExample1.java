@@ -18,10 +18,10 @@ public class SSAExample1 {
 
 	public void init() {
 		this.searchAgentsNo = 50;
-		this.maxIteration = 1000;
+		this.maxIteration = 500;
 //		this.fun = new Functions("GoldsteinPrice");
 //		this.fun = new Functions("Ackleys");
-		this.fun = new Functions("sphere");
+		this.fun = new Functions("rosenBrock");
 		SSAExecutor ssa = new SSAExecutor();
 		double[] result = ssa.mainProcess(searchAgentsNo, maxIteration, fun.getLb(), fun.getUb(), fun.getDimension());
 		new MatOpt().printVector(result);

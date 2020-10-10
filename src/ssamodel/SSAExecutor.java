@@ -7,6 +7,7 @@ import matrixUtils.Argmin;
 import matrixUtils.MatOpt;
 import matrixUtils.MatrixCreateUtils;
 import matrixUtils.SortArray;
+import plotUtils.ResultPlot;
 import testFunctionUtils.Functions;
 public class SSAExecutor {
 
@@ -15,7 +16,7 @@ public class SSAExecutor {
 	private MatrixCreateUtils mc;
 	private MatOpt m;
 	private Random rand;
-	
+
 	private double fMin;
 	private double[] bestX;
 	private double[] Convergence_curve;
@@ -74,7 +75,7 @@ public class SSAExecutor {
 		m.printVector(lb);
 		System.out.print("解空间上限： ");
 		m.printVector(ub);
-		
+
 		// 代表麻雀位置
 		double[][] X = mc.zeros(pop, dim);
 		// 适应度值初始为0
@@ -82,18 +83,23 @@ public class SSAExecutor {
 		// 初始化麻雀的坐标和适应度
 		for (int i = 0; i < pop; i++) {
 			for (int j = 0; j < X[0].length; j++) {
+				// 均匀分布随机数X~U(lb, ub)
 				X[i][j] = lb[j]+(ub[j] - lb[j]) * Math.random();
 			}
-			fitness[i] = Functions.sphere(X[i]);
+			fitness[i] = Functions.rosenbrock(X[i]);
 		}
 //		System.out.println("X 的初始值为：");
 //		m.printMatrix(X);
 		System.out.print("初始适应度为fitness: ");
 		m.printVector(fitness);
-		// 最佳种群与适应度矩阵，深拷贝
+		/**
+		 *  最佳种群与适应度矩阵，初始值为初始种群
+		 */
 		double[]pFit = m.copyVector(fitness);
 		double[][] pX = m.copyMatric(X);
-		// 全局最优适应值，Producer、的能量储备水平取决于对个人适应度值的评估
+		/**
+		 *  全局最优适应值，Producer、的能量储备水平取决于对个人适应度值的评估
+		 */
 		double fMin = m.min(fitness);
 		System.out.println("当前最优适应度："+fMin);
 		Argmin min = new Argmin(fitness);
@@ -107,6 +113,9 @@ public class SSAExecutor {
 
 		SortArray sa = null;
 		ArgMax am = null;
+		/**
+		 * 根据适应度排序后的个体的原索引
+		 */
 		int[] index;
 		double fMax;
 		int fMaxIndex;
@@ -144,7 +153,7 @@ public class SSAExecutor {
 						X[index[j]][k] = pX[index[j]][k]*Math.exp(-k/(r1*M));
 					}
 					X[index[j]] = clipping(X[index[j]], lb, ub);
-					fitness[index[j]] = Functions.sphere(X[index[j]]);
+					fitness[index[j]] = Functions.rosenbrock(X[index[j]]);
 				}
 			}else{
 				for (int j = 0; j < pNum; j++) {
@@ -154,7 +163,7 @@ public class SSAExecutor {
 					}
 					X[index[j]] = this.clipping(X[index[j]], lb, ub);
 					
-					fitness[index[j]] = Functions.sphere(X[index[j]]);
+					fitness[index[j]] = Functions.rosenbrock(X[index[j]]);
 				}
 			}
 			/* ================================================
@@ -190,7 +199,7 @@ public class SSAExecutor {
 					X[index[si]] = m.scalaAdd(X[index[si]], temp);
 				}
 				X[index[si]] = clipping(X[index[si]], lb, ub);
-				fitness[index[si]] = Functions.sphere(X[index[si]]);
+				fitness[index[si]] = Functions.rosenbrock(X[index[si]]);
 			}
 			
 			/* ================================================
@@ -208,7 +217,7 @@ public class SSAExecutor {
 					X[index[b[j]]] = m.vectorAdd(pX[index[b[j]]], m.scalaMulti(temp, (2*rand.nextGaussian()-1)));
 				}
 				X[index[b[j]]] = this.clipping(X[index[b[j]]], lb, ub);
-				fitness[index[b[j]]] = Functions.sphere(X[index[b[j]]]);
+				fitness[index[b[j]]] = Functions.rosenbrock(X[index[b[j]]]);
 			}
 			
 			for (int j = 0; j < pop; j++) {
@@ -228,6 +237,8 @@ public class SSAExecutor {
 		
 		this.fMin = fMin;
 		this.bestX = bestX;
+		new ResultPlot(ConvergenceCurve);
+		m.printMatrix(pX);
 		return bestX;
 	}
 

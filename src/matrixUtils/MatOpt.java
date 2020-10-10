@@ -113,6 +113,12 @@ public class MatOpt {
 		}
 		return array;
 	}
+	
+	/**
+	 * 随机打乱整数值数组元素
+	 * @param array
+	 * @return 打乱后的数组
+	 */
 	public int[] shuffle(int[] array) {
 		ArrayList<Integer> list = this.arrayToList(array);
 		Collections.shuffle(list);
@@ -136,6 +142,12 @@ public class MatOpt {
 		return subArray;
 	}
 	
+	/**
+	 * 获得数组array中下标为indexs[i]的部分元素
+	 * @param array 原数组
+	 * @param indexs 索引数组
+	 * @return 原数组中索引数组元素为索引的那些元素
+	 */
 	public int[] getSubArray(int[] array, int[] indexs) {
 		int len = indexs.length;
 		int[] result = new int[len];
@@ -158,9 +170,9 @@ public class MatOpt {
 	
 	/**
 	 * @param M 被计算的矩阵
-	 * @param coef 系数
-	 * @param constant 常数项
-	 * @return 每个元素都乘以系数加上常数项
+	 * @param coef 系数，标量
+	 * @param constant 常数项，标量
+	 * @return 矩阵M的每个元素都乘以系数coef，然后加上常数项constant
 	 */
 	public double[][] matrixLinearScalaOpt(double[][] M, double coef, double constant){
 		int row = M.length;
@@ -193,6 +205,13 @@ public class MatOpt {
 		}
 		return result;
 	}
+	
+	/**
+	 *	 向量每一个维度的值减去同一个标量值
+	 * @param params 待求向量
+	 * @param factor 减数标量
+	 * @return 向量减去标量的结果params[i] - factor;
+	 */
 	public double[] scalaSubtract(double[] params, double factor){
 		int len = params.length;
 		double[] result = new double[len];
@@ -201,6 +220,7 @@ public class MatOpt {
 		}
 		return result;
 	}
+
 	/**
 	 * mode表示标量在左边还是右边
 	 * @param vector
@@ -248,36 +268,37 @@ public class MatOpt {
 	
 	public void printVector(double[] vector) {
 		for (int i = 0; i < vector.length; i++) {
-			if (i % 5 == 0) {
-				System.out.println();
-			}
-			System.out.printf("dim%d: %.3f, ", i, vector[i]);
+			System.out.printf("%.3f, ",vector[i]);
 		}
 		System.out.println();
 	}
 	
 	public void printVector(int[] vector) {
 		for (int i = 0; i < vector.length; i++) {
-			if (i % 5 == 0) {
-				System.out.println();
-			}
 			System.out.printf("dim%d: %d, ", i, vector[i]);
 		}
 		System.out.println();
 	}
 	public void printVectorOmitted(double[] vector) {
 		int len = vector.length;
+		System.out.print("len="+len+", ");
 		System.out.printf("%.2f  %.2f  ...  %.2f  ...  %.2f\n", vector[0], vector[1], vector[10], vector[len-1]);
 	}
 	
+	/**
+	 * 	简略地打印矩阵
+	 * @param matrix
+	 */
 	public void printMatrix(double[][] matrix) {
-		for (int i = 0; i < matrix.length; i++) {
-			this.printVector(matrix[i]);
+		int len = matrix.length;
+		int[] indexs = {0, 1, 2, 3, len-3, len-2, len-1};
+		for (int i = 0; i < indexs.length; i++) {
+			this.printVector(matrix[indexs[i]]);
 		}
 	}
 	
 	public void printMatrixOmitted(double[][] matrix) {
-		System.out.println("------print matrix------");
+		System.out.println("------print matrix--row="+matrix.length+"----");
 		this.printVectorOmitted(matrix[0]);
 		this.printVectorOmitted(matrix[1]);
 		System.out.println("...  ...  ...  ...");
@@ -323,6 +344,11 @@ public class MatOpt {
 	}
 	
 
+	/**
+	 * 	求双精度double类型数组每一个元素的平方值数组
+	 * @param array 原数组
+	 * @return 所求平方值
+	 */
 	public double[] square(double[] array) {
 		double[]result = new double[array.length];
 		for (int i = 0; i < result.length; i++) {
@@ -330,11 +356,19 @@ public class MatOpt {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * 	取数组array的begin到end位置
+	 * @param array 原数组
+	 * @param begin 偏移量
+	 * @param end 终止位置有界
+	 * @return 子数组array[begin+i]
+	 */
 	public double[] subArray(double[] array, int begin, int end) {
 		double[] result = new double[end-begin];
 		for (int i = 0; i < result.length; i++) {
-			result[i] = array[i];
+			result[i] = array[begin+i];
+//			result[i] = array[i];
 		}
 		return result;
 	}
@@ -346,7 +380,12 @@ public class MatOpt {
 		}
 		return result;
 	}
-	
+
+	/**
+	 *	 求double型数组的元素值之和
+	 * @param array 待求数组
+	 * @return 求和结果
+	 */
 	public double sum(double[] array) {
 		double result = 0;
 		for (int i = 0; i < array.length; i++) {

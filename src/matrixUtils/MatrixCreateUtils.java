@@ -138,8 +138,10 @@ public class MatrixCreateUtils {
 	}
 	
 	/**
-	 * generate uniform distribution random numbers
-	 * @param len
+	 * 
+	 * generate uniform distribution random numbers均匀分布随机数矩阵产生
+	 * @param row 行
+	 * @param column 列
 	 * @return
 	 */
 	public double[][] randUniformMatrix(int row, int column) {
@@ -152,7 +154,11 @@ public class MatrixCreateUtils {
 		return result;
 	}
 
-	
+	/**
+	 * 生成自然数递增的整数值序列
+	 * @param len
+	 * @return 0, 1, 2, ..., len-1
+	 */
 	public int[] seriesInt(int len) {
 		int[] array = new int[len];
 		for (int i = 0; i < array.length; i++) {

@@ -44,9 +44,11 @@ public class Functions {
 		}
 
 		case "rosenBrock":{
-			this.lb = Double.MIN_VALUE;
-			this.ub = Double.MAX_VALUE;
-			this.dimension = 20;
+//			this.lb = Double.MIN_VALUE;
+//			this.ub = Double.MAX_VALUE;
+			this.lb=-30;
+			this.ub=30;
+			this.dimension = 30;
 			break;
 		}
 		default:
@@ -139,9 +141,7 @@ public class Functions {
 		
 		return result;
 	}
-	
 
-	
 	public double rosenbrock(ArrayList<Double> params) {
 		int len = params.size();
 		double result = 0;
@@ -150,25 +150,32 @@ public class Functions {
 		result += m.sum(m.square(params.subList(0, len-1)));
 		return result;
 	}
-	
-	public double rosenbrock(double[] params) {
-		int len = params.length;
+
+	/**
+	 * RosenBrock函数
+	 * @param x 自变量 向量 
+	 * @return 因变量 标量
+	 */
+	public static double rosenbrock(double[] x) {
+		int len = x.length;
 		double result = 0;
-		double[] item1 = m.square(m.vectorSub(m.subArray(params, 1, len), m.square(m.subArray(params, 0, len-1))));
-		result += 100*m.sum(item1);
-		result += m.sum(m.square(m.scalaSubtract(m.subArray(params, 0, len-1), 1)));
+//		double[] item1 = m.square(m.vectorSub(m.subArray(params, 1, len), m.square(m.subArray(params, 0, len-1))));
+//		result += 100*m.sum(item1);
+//		result += m.sum(m.square(m.scalaSubtract(m.subArray(params, 0, len-1), 1)));
+		for (int i = 0; i < len-1; i++) {
+			result += 100*(x[i+1]-x[i]*x[i])*(x[i+1]-x[i]*x[i])+(x[i]-1)*(x[i]-1);
+		}
 		return result;
 	}
-	
+
 	public static void main(String[] args) {
 		Functions f = new Functions("rosenBrock");
-		double[] x = new double[20];
-		for (int i = 0; i < x.length; i++) {
-			x[i] = 1;
-		}
+//		double[] x = {2.048, -2.048};  // 3897.7342268416
+//		double[] x = {-2.048, -2.048};  // 3905.9262268416
+		double[] x = {1, 2 ,34 ,5  ,7};
 		System.out.println(f.rosenbrock(x));
 	}
-	
+
 	public double function6(ArrayList<Double> params) {
 		double result = 0;
 		Iterator<Double> it = params.iterator();
@@ -183,7 +190,7 @@ public class Functions {
 		}
 		return result;
 	}
-	
+
 	public static double GoldsteinPrice(double[] parms) {
 		double x = parms[0];
 		double y = parms[1];
