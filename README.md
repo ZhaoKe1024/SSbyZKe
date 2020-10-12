@@ -1,5 +1,5 @@
 # SSbyZKe
-SS Algorithm
+SS Algorithm for Java
 
 This project includes differential evolution algorithm and sparrow search algorithm. Among them, there is numpy4j library, which is a scientific computing toolbox imitating MATLAB and python.
 这个工程包含了差分进化算法和麻雀搜索算法。其中还有本人靠自己编写的numpy4J库，它是模仿MATLAB和Python的科学计算工具箱。
